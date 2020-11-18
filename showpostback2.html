@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jake attribution test postback page</title>
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	<script>
+
+			function add() {
+					var param = $('#a').val();
+					$.ajax({
+							url: "showpostback2.php?a="+param+"&page=1",
+							type: "get",
+							// data: {a : param},
+					}).done(function(data) {
+						$('#table').empty();
+						$('#table').append(data);
+							// $('#table').text(data);
+					});
+			}
+			function add2() {
+				var param2 = $('#b').val();
+					$.ajax({
+							url: "showpostback2.php?a="+param+"&page=1",
+							type: "get",
+							// data: {a : param2},
+					}).done(function(data) {
+						$('#table').empty();
+						$('#table').append(data);
+							// $('#table').text(data);
+					});
+			}
+	</script>
+
+</head>
+<body>
+<div class="container">
+			<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-10">
+									<h1>adbrix se-team intern assignment</h1><br><br>
+						</div>
+						<div class="col-md-1"></div>
+			</div>
+			<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-10">
+											<h2>results of postback</h2>
+						</div>
+						<div class="col-md-1"></div>
+			</div>
+			<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-10">
+							<button type="button" id = "a" class="btn btn-primary" value = "testDB" onclick="add()">GET</button>
+							<button type="button" id = "b" class="btn btn-success" value = "testDB2" onclick="add2()">POST</button>
+						</div>
+						<div class="col-md-1"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-1"></div>
+			  <div class="col-md-10">
+			        <table  class="table table-dark table-hover table-striped" id = "table">
+
+
+							 </table>
+ 						      </div>
+ 						      <div class="col-md-1"></div>
+			</div>
+
+
+
+</div>
+</body>
+</html>
