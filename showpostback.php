@@ -218,10 +218,10 @@
               // 처음 버튼
           if ($page <= 1) {
             // 맨 첫페이지에 있을 때 아예 안보이게 하
-                echo '<li class="page-item"><a class="page-link" style="color: gray" disabled>begin</a></li>';
+                echo '<li class="page-item"><a class="page-link" style="color: gray" disabled>first</a></li>';
 
               } else {
-                  echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page=1">begin</a></li>';
+                  echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page=1">first</a></li>';
               }
             
               // 이전으로 돌아가는 버튼
@@ -260,9 +260,9 @@
       
           // 처음 버튼
           if ($page <= 1) {
-                  echo '<li class="page-item"><a class="page-link" style="color: gray">begin</a></li>';
+                  echo '<li class="page-item"><a class="page-link" style="color: gray">first</a></li>';
               } else {
-                  echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page=1&category='.$category.'&search='.$search.'">begin</a></li>';
+                  echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page=1&category='.$category.'&search='.$search.'">first</a></li>';
               }
             
               // 이전으로 돌아가는 버튼
