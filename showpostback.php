@@ -209,9 +209,9 @@
     }
       echo '</table>';
   } else {
-    echo '<h2>There is no result including keyword <h1 style = "color : red">"'.$search.'"</h1></h2>
+    echo '<p><h3>There is no result including keyword such as <strong style = "color: red">"'.$search.'"</strong></h3></p>
         <p>You might have searched a wrong keyword.<br>
-        Please try once again.</p>
+        Try once again.</p>
         <i class="fa fa-frown-o" style="font-size:100px;color:red"></i>';
   }
   ?>
