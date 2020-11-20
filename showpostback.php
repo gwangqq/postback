@@ -191,7 +191,7 @@
   
   } else {
     // $sql = "SELECT * FROM $db where $category = '$search' ORDER BY event_date_time DESC LIMIT $page_start, $list";
-    $sql = "SELECT * FROM (SELECT @rownum:=@rownum+1 no, s.* FROM $db s, (select @rownum:=0) tmp ORDER by event_date_time) test where $category = '$search' ORDER BY no DESC LIMIT $page_start, $list";
+    $sql = "SELECT * FROM (SELECT @rownum:=@rownum+1 no, s.* FROM $db s, (select @rownum:=0) tmp where $category = '$search' ORDER by event_date_time) test  ORDER BY no DESC LIMIT $page_start, $list";
     
   }
 
