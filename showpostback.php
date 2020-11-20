@@ -154,6 +154,7 @@
       <div class="col-md-10">
         <table  class="table table-dark table-hover table-striped">
         <tr>
+            <th>no</th>
         		<th>adid</th>
         		<th>idfv</th>
         		<th>model</th>
@@ -183,9 +184,15 @@
 
 
   if(($search == 1)&&($category == 'category' || $category == 1 )){    
-    $sql = "SELECT * FROM $db ORDER BY event_date_time DESC LIMIT $page_start, $list";
+    //$sql = "SELECT * FROM $db ORDER BY event_date_time DESC LIMIT $page_start, $list";
+    $sql = "SELECT * FROM (SELECT @rownum:=@rownum+1 no, s.* FROM $db s, (select @rownum:=0) tmp ORDER by event_date_time) test ORDER BY no DESC LIMIT $page_start, $list";
+    
+    
+  
   } else {
-    $sql = "SELECT * FROM $db where $category = '$search' ORDER BY event_date_time DESC LIMIT $page_start, $list";
+    // $sql = "SELECT * FROM $db where $category = '$search' ORDER BY event_date_time DESC LIMIT $page_start, $list";
+    $sql = "SELECT * FROM (SELECT @rownum:=@rownum+1 no, s.* FROM $db s, (select @rownum:=0) tmp ORDER by event_date_time) test where $category = '$search' ORDER BY no DESC LIMIT $page_start, $list";
+    
   }
 
 
@@ -194,7 +201,7 @@
   if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-      echo "<td>" . $row["adid"]. "</td><td>" . $row["idfv"]. "</td><td>" . $row["model"].
+      echo "<td>".$row["no"]."</td><td>" . $row["adid"]. "</td><td>" . $row["idfv"]. "</td><td>" . $row["model"].
 			"</td><td>". $row["country"]."</td><td>". $row["detail_event_name"]."</td><td>".$row["event_date_time"]."</td>";
 			echo "</tr>";
     }
