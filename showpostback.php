@@ -5,7 +5,8 @@
 	<title>jake attribution test postback page</title>
 	<script src="//code.jquery.com/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
@@ -152,17 +153,7 @@
   <!-- HTML for table -->
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        <table  class="table table-dark table-hover table-striped">
-        <tr>
-            <th>no</th>
-        		<th>adid</th>
-        		<th>idfv</th>
-        		<th>model</th>
-        		<th>country</th>
-        		<th>detail_event_name</th>
-        		<th>event_date_time</th>
-	       </tr>
-	       <tr>
+        
   <?php
   $list = 7;
       $block_cnt = 5;
@@ -199,19 +190,33 @@
   $result = $conn->query($sql);
  
   if ($result->num_rows > 0) {
+      echo '<table  class="table table-dark table-hover table-striped">
+      <tr>
+          <th>no</th>
+          <th>adid</th>
+          <th>idfv</th>
+          <th>model</th>
+          <th>country</th>
+          <th>detail_event_name</th>
+          <th>event_date_time</th>
+       </tr>
+       <tr>';
     // output data of each row
     while($row = $result->fetch_assoc()) {
       echo "<td>".$row["no"]."</td><td>" . $row["adid"]. "</td><td>" . $row["idfv"]. "</td><td>" . $row["model"].
 			"</td><td>". $row["country"]."</td><td>". $row["detail_event_name"]."</td><td>".$row["event_date_time"]."</td>";
 			echo "</tr>";
     }
+      echo '</table>';
   } else {
-    echo "There is no result.";
+    echo '<h2>There is no result including keyword <h1 style = "color : red">"'.$search.'"</h1></h2>
+        <p>You might have searched a wrong keyword.<br>
+        Please try once again.</p>
+        <i class="fa fa-frown-o" style="font-size:100px;color:red"></i>';
   }
   ?>
-
-  </table>
       </div>
+  
       <div class="col-md-1"></div>
     </div>
   <div class="row center-block">
@@ -220,6 +225,8 @@
               <ul class="pagination centered">
 
   <?php
+  if ($result->num_rows > 0) {
+
     if(($search == 1)&&($category == 'category' || $category == 1 )){    
               
               // 처음 버튼
@@ -302,7 +309,9 @@
               }
               $conn->close();
   }
+  } else {
 
+  }
   ?>
         </ul>
           </div>
