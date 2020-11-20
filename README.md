@@ -1,4 +1,9 @@
-This project is made for someone who want to use 'adrix'.
-If you want to get some results of attribution, you have to take a look of 'test.php', 'test2.php' and 'showpostback.php'.
+#postback
 
-This is only for using an attribution tool called 'adbrix'. 
+This project is made to take data from adbrix server.
+
+It also includes some files for practicing php.
+
+test.php, test2.php and showpostback.php are examples code for taking postback.
+
+plz read only 3 files that I mentioned ealier.
