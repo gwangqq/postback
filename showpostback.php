@@ -12,15 +12,15 @@
 </head>
 <script>
   function search() {
-    var category = $('#selector').val();
+    var all = $('#selector').val();
     var param = $('#search').val().trim();
     var db_selector = $('#db').val();
 
-    if(param != '' && category != 'category'){
-      location.href='<?php echo $_SERVER['PHP_SELF'];?>?a='+db_selector+'&page=1&category=' + category +'&search=' + param;
-    } else if (param =='' && category =='category'){
+    if(param != '' && all != 'all'){
+      location.href='<?php echo $_SERVER['PHP_SELF'];?>?a='+db_selector+'&page=1&all=' + all +'&search=' + param;
+    } else if (param =='' && all =='all'){
       location.href='<?php echo $_SERVER['PHP_SELF'];?>?a='+db_selector+'&page=1';
-    } else if (param != '' && category !='category'){
+    } else if (param != '' && all !='all'){
       alert('please type a word!!!');
     } else {
       alert('check your word one more time!!!');
@@ -112,11 +112,11 @@
     $page = 1;
   }
 
-  // category paramter
-  if(isset($_GET['category'])){
-    $category = $_GET['category'];
+  // all paramter
+  if(isset($_GET['all'])){
+    $all = $_GET['all'];
   } else {
-    $category = 1;
+    $all = 1;
   }
 
   // search paramter
@@ -127,10 +127,10 @@
   }
 
   // paging code
-  if(($search == 1)&&($category == 'category' || $category == 1 )){
+  if(($search == 1)&&($all == 'all' || $all == 1 )){
     $paging_sql = "SELECT * FROM $db";
   } else {
-    $paging_sql = "SELECT * FROM $db where $category = '$search'";
+    $paging_sql = "SELECT * FROM $db where $all = '$search'";
   }
   $result_set = mysqli_query($conn, $paging_sql);
   ?>
@@ -174,15 +174,15 @@
 
 
 
-  if(($search == 1)&&($category == 'category' || $category == 1 )){    
+  if(($search == 1)&&($all == 'all' || $all == 1 )){    
     //$sql = "SELECT * FROM $db ORDER BY event_date_time DESC LIMIT $page_start, $list";
     $sql = "SELECT * FROM (SELECT @rownum:=@rownum+1 no, s.* FROM $db s, (select @rownum:=0) tmp ORDER by event_date_time) test ORDER BY no DESC LIMIT $page_start, $list";
     
     
   
   } else {
-    // $sql = "SELECT * FROM $db where $category = '$search' ORDER BY event_date_time DESC LIMIT $page_start, $list";
-    $sql = "SELECT * FROM (SELECT @rownum:=@rownum+1 no, s.* FROM $db s, (select @rownum:=0) tmp where $category = '$search' ORDER by event_date_time) test  ORDER BY no DESC LIMIT $page_start, $list";
+    // $sql = "SELECT * FROM $db where $all = '$search' ORDER BY event_date_time DESC LIMIT $page_start, $list";
+    $sql = "SELECT * FROM (SELECT @rownum:=@rownum+1 no, s.* FROM $db s, (select @rownum:=0) tmp where $all = '$search' ORDER by event_date_time) test  ORDER BY no DESC LIMIT $page_start, $list";
     
   }
 
@@ -227,7 +227,7 @@
   <?php
   if ($result->num_rows > 0) {
 
-    if(($search == 1)&&($category == 'category' || $category == 1 )){    
+    if(($search == 1)&&($all == 'all' || $all == 1 )){    
               
               // 처음 버튼
           if ($page <= 1) {
@@ -276,7 +276,7 @@
           if ($page <= 1) {
                   echo '<li class="page-item"><a class="page-link" style="color: gray">first</a></li>';
               } else {
-                  echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page=1&category='.$category.'&search='.$search.'">first</a></li>';
+                  echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page=1&all='.$all.'&search='.$search.'">first</a></li>';
               }
             
               // 이전으로 돌아가는 버튼
@@ -284,14 +284,14 @@
                 echo '<li class="page-item"><a class="page-link" style="color: gray">previous</a></li>';
               } else {
                   $pre = $page - 1;
-                  echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page='.$pre.'&category='.$category.'&search='.$search.'">previous</a></li>';
+                  echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page='.$pre.'&all='.$all.'&search='.$search.'">previous</a></li>';
               }
             
               for ($i=$block_start; $i <= $block_end ; $i++) {
                   if ($page == $i) {
-                      echo '<li class="page-item"><a class="page-link" style="color: red" href="showpostback.php?a='.$db.'&page='.$i.'&category='.$category.'&search='.$search.'">'.$i.'</a></li>';
+                      echo '<li class="page-item"><a class="page-link" style="color: red" href="showpostback.php?a='.$db.'&page='.$i.'&all='.$all.'&search='.$search.'">'.$i.'</a></li>';
                   } else{
-                      echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page='.$i.'&category='.$category.'&search='.$search.'">'.$i.'</a></li>';
+                      echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page='.$i.'&all='.$all.'&search='.$search.'">'.$i.'</a></li>';
                   }
               }
             // 다음 버튼
@@ -299,13 +299,13 @@
                 echo '<li class="page-item"><a class="page-link" style="color: gray">next</a></li>';
               } else {
                 $next = $page + 1;
-                echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page='.$next.'&category='.$category.'&search='.$search.'">next</a></li>';
+                echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page='.$next.'&all='.$all.'&search='.$search.'">next</a></li>';
               }
             // 끝 버튼
               if ($page >= $total_page) {
                 echo '<li class="page-item"><a class="page-link" style="color: gray">end</a></li>';
               } else {
-                echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page='.$total_page.'&category='.$category.'&search='.$search.'">end</a></li>';
+                echo '<li class="page-item"><a class="page-link" href="showpostback.php?a='.$db.'&page='.$total_page.'&all='.$all.'&search='.$search.'">end</a></li>';
               }
               $conn->close();
   }
@@ -321,19 +321,19 @@
           <div class ="col-md-1"></div>
           <div class ="col-md-10">
               <?php
-                $selected2 = $_GET['category'];
+                $selected2 = $_GET['all'];
               ?>
               <div class="input-group-prepend">
                 <select class = "selectpicker" id = "selector">
-                  <option class = "query" value = "category"
+                  <option class = "query" value = "all"
                   <?php
-                    if(isset($selected2) && ($selected2 == 'category')){
+                    if(isset($selected2) && ($selected2 == 'all')){
                       echo 'selected';
                     } else {
                       
                     }
                   ?>
-                  >category</option>
+                  >all</option>
                   <option class = "query" value = "adid"
                   <?php
                     if(isset($selected2) && ($selected2 == 'adid')){
