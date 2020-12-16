@@ -13,11 +13,11 @@
 			$dbname = "jakeworks";
 
 
-			$click_action_1 = $_GET['click_action_1'];
-			$click_action_2 = $_GET['click_action_2'];
-			$click_action_3 = $_GET['click_action_3'];
-			$click_action_4 = $_GET['click_action_4'];
-			$click_action_5=$_GET['click_action_5'];
+			$click_action_1 = $_GET['secretkey'];
+			$click_action_2 = $_GET['test_parameter'];
+			$click_action_3 = $_GET['custom_parameter_test'];
+			$click_action_4 = $_GET['kkkkk'];
+			$click_action_5=$_GET['asdjfhd'];
 			$adid = $_GET['adid'];
 			$idfv=$_GET['idfv'];
 			$possible=$_GET['possible'];
