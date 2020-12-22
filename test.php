@@ -39,6 +39,7 @@
 			$deeplink_custom_path = $_GET['deeplink_custom_path'];
 			$detail_event_name = $_GET['detail_event_name'];
 			$replaced_event_name = $_GET['replaced_event_name'];
+			$campaign = $_GET['campaign'];
 			// Create connection
 			$conn = new mysqli($servername, $username, $password, $dbname);
 			// Check connection
@@ -46,8 +47,8 @@
 			  die("Connection failed: " . $conn->connect_error);
 			}
 
-			$sql = "INSERT INTO testDB (click_action_1, click_action_2, click_action_3, click_action_4, click_action_5, adid, idfv, possible, os, model, vendor, resolution, orientation, platform, network, wifi, carrier, language, country, buildid, package_name, event_date_time, deeplink_custom_path, event_name, detail_event_name, replaced_event_name)
-			VALUES ('$click_action_1', '$click_action_2', '$click_action_3', '$click_action_4', '$click_action_5', '$adid', '$idfv', '$possible', '$os', '$model', '$vendor', '$resolution', '$orientation', '$platform', '$network', '$wifi', '$carrier', '$language', '$country', '$buildid', '$package_name', '$event_date_time', '$deeplink_custom_path', '$event_name', '$detail_event_name', '$replaced_event_name')";
+			$sql = "INSERT INTO testDB (click_action_1, click_action_2, click_action_3, click_action_4, click_action_5, campaign, adid, idfv, possible, os, model, vendor, resolution, orientation, platform, network, wifi, carrier, language, country, buildid, package_name, event_date_time, deeplink_custom_path, event_name, detail_event_name, replaced_event_name)
+			VALUES ('$click_action_1', '$click_action_2', '$click_action_3', '$click_action_4', '$click_action_5', '$campaign','$adid', '$idfv', '$possible', '$os', '$model', '$vendor', '$resolution', '$orientation', '$platform', '$network', '$wifi', '$carrier', '$language', '$country', '$buildid', '$package_name', '$event_date_time', '$deeplink_custom_path', '$event_name', '$detail_event_name', '$replaced_event_name')";
 
 			if ($conn->query($sql) === TRUE) {
 			  echo "New record created successfully";
