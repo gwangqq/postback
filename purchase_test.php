@@ -21,6 +21,8 @@
             $sales = $_GET['sales'];
 			$product_name = $_GET['product_name'];
 			$date_time = $_GET['date_time'];
+			$appkey = $_GET['appkey'];
+			$partner = $_GET['partner'];
 
             // Create connection
 			$conn = new mysqli($servername, $username, $password, $dbname);
@@ -29,8 +31,8 @@
 			  die("Connection failed: " . $conn->connect_error);
 			}
 
-			$sql = "INSERT INTO purchase_test (param_json, quantity, category, order_id, price, sales, product_name, date_time)
-			VALUES ('$param_json', '$quantity', '$category', '$order_id', '$price', '$sales', '$product_name', '$date_time')";
+			$sql = "INSERT INTO purchase_test (param_json, quantity, category, order_id, price, sales, product_name, date_time, a_appkey, a_partner)
+			VALUES ('$param_json', '$quantity', '$category', '$order_id', '$price', '$sales', '$product_name', '$date_time', '$appkey', '$partner')";
 
 			if ($conn->query($sql) === TRUE) {
 			  echo "New record created successfully";
