@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>ajax test</title>
+
+  </head>
+
+  <body>
+    <button type="button" id = "a" value = "testDB" onclick="add()">GET</button>
+    <button type="button" id = "b" value = "testDB2" onclick="add2()">POST</button>
+    <!-- <input type="button" id="a" value = "testDB" >
+    <input type="button" id="b" value = "testDB2" onclick="add2()"> -->
+
+    <p id="result"></p>
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script>
+        function add() {
+            $.ajax({
+                url: "ajax_test.php",
+                type: "get",
+                data: {
+                    a: $('#a').val(),
+                }
+            }).done(function(data) {
+                $('#result').text(data);
+            });
+        }
+
+        function add2() {
+            $.ajax({
+                url: "ajax_test.php",
+                type: "get",
+                data: {
+                    a: $('#b').val(),
+                }
+            }).done(function(data) {
+                $('#result').text(data);
+            });
+        }
+    </script>
+  </body>
+</html>
