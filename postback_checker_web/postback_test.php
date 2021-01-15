@@ -18,7 +18,6 @@
   <script>
     $(document).ready(function(){
       $("#check_btn").click(function() {
-        $("#result_url").text('');
         str = $("#typed_url").val();
         if(str == ''){
           alert("please put postback url");
@@ -30,22 +29,20 @@
           // alert(query_strings)
           var split_query_string = query_strings.split('&');
           for(i = 0; i < split_query_string.length;i++){
-            var temp_query = split_query_string[i];
-            $("#result_url").append(temp_query + "\n");
+            $("#result_url").append(split_query_string[i] + "\n");
             // compare each query string with postback macro in server using ajax
-            var macro = split_query_string[i].split('=');
             $.ajax({
                 url: "compare.php",
                 type: "get",
                 data: {
-                    a: macro[1],
+                    a: split_query_string[i],
                 }
             }).done(function(data) {
-              alert("comeback data : " + data);
+                alert(data + "comeback");
               if(data == 1){
-                $("#result_url").append('<font color = "Green">' + temp_query + '</font>\n');
+                $("#result_url").append(split_query_string[i] + "  -------vaild\n");
               } else{
-                $("#result_url").append('<font color = "Red">' +temp_query + '</font>\n');
+                $("#result_url").append(split_query_string[i] + "  -------invaild\n");
               }
             });
 
@@ -121,9 +118,7 @@
 
     </div>
 </div>
-<div class="jumbotron text-center" style="margin-bottom:0">
-  <p>If you have question, sned email to jake.park@igaworks.com</p>
-</div>
+
 
 </body>
 </html>
