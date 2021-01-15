@@ -20,50 +20,70 @@
       $("#check_btn").click(function() {
         $("#result_url").text('');
         str = $("#typed_url").val();
+        
         // get selected macro type from selectpicker 
-        var macro_type = $("#typed_url option:selected").val();
+        var macro_type = $("#postback_type option:selected").val();
+        //alert(macro_type);
+        
+        // when url is empty
         if(str == ''){
           alert("please put postback url");
         } else {
+          // split domain and query strings using '?'
           var domain = str.split('?');
           // alert(domain[0]);
+          
+          // domain
           $("#domain").text(domain[0]);
+
+          // query strings 
           var query_strings = domain[1];
           // alert(query_strings)
+
+          // split query strings using '&' and put it in array
           var split_query_string = query_strings.split('&');
-          var len = split_query_string.length;
-          for(i = 0; len; i++){
+          console.log(split_query_string);
+          console.log(split_query_string.length);
+          for(i = 0; i < split_query_string.length;i++){
+
+            var temp_query = split_query_string[i];
+            // $("#result_url").append(temp_query + "\n");
+            // compare each query string with postback macro in server using ajax
             var macro = split_query_string[i].split('=');
+            console.log("macro[0] : " + macro[0] + " macro[1] : " + macro[1] + " url type: " + macro_type);
+            // how to solve this problem using php????????---------
             <?php
-                $a = $_GET['a'];
-                
-                $servername = "localhost";
-                $username = "pbtester";
-                $password = "qkrrhkdrb1!";
-                $dbname = "pbtester";
-                $conn = new mysqli($servername, $username, $password, $dbname);
-                // Check connection
-                if ($conn->connect_error) {
-                  die("Connection failed: " . $conn->connect_error);
-                }
+              $a = $_GET['a'];
+              $b = $_GET['b'];
+              $c = $_GET['c'];
 
-                $sql = "SELECT count(attribution) FROM attribution_macro WHERE attribution = '$a'";
-                $result = $conn->query($sql);
-                if ($result->num_rows > 0) {
-                  // output data of each row
-                  while($row = $result->fetch_assoc()) {
-                      echo $row["count(attribution)"];
-                  }
-                } else {
-                  echo "error happened";
+              $servername = "localhost";
+              $username = "pbtester";
+              $password = "qkrrhkdrb1!";
+              $dbname = "pbtester";
+              $conn = new mysqli($servername, $username, $password, $dbname);
+              // Check connection
+              if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+              }
+              if($c == 'attribution'){
+                $sql = "SELECT count(*) FROM attribution_macro WHERE attribution = '$b'";
+              } elseif($c == 'event'){
+                $sql = "SELECT count(*) FROM event_macro WHERE event = '$b'";
+              }
+              $result = $conn->query($sql);
+              if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    echo $row["count(*)"]."|$a=$b";
                 }
+              } else {
+                echo "error happened";
+              }
 
-                $conn->close();
-   ?>
+              $conn->close();
+              ?>
           }
-          
-          
-          
         }
       });
     });
@@ -83,8 +103,8 @@
       <div>
         <label for="postback_type">postback type</label>
         <select class = "selectpicker" id = "postback_type">
-            <option value="attribution">Attribution</option>
-            <option value="event">Event</option>
+            <option value="attribution">attribution</option>
+            <option value="event">event</option>
         </select>
       </div>
     </div>
@@ -135,7 +155,10 @@
 
     </div>
 </div>
-
+<br><br><br><br><br>
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <p>If you have question, sned email to jake.park@igaworks.com</p>
+</div>
 
 </body>
 </html>
