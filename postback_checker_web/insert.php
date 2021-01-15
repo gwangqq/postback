@@ -243,7 +243,8 @@
     "{req.evt.param.abx:item.abx:sales}",
     "{req.evt.param.abx:item.abx:discount}",
     "{req.evt.param.abx:item.abx:currency}",
-    "{req.evt.param.abx:item.abx:category1}");
+    "{req.evt.param.abx:item.abx:category1}"
+);
     $arrlength = count($macro);
     for ($x = 0; $x < $arrlength; $x++) {
         // Create connection
