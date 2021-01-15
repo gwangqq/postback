@@ -18,7 +18,10 @@
   <script>
     $(document).ready(function(){
       $("#check_btn").click(function() {
+        $("#result_url").text('');
         str = $("#typed_url").val();
+        // get selected macro type from selectpicker 
+        var macro_type = $("#typed_url option:selected").val();
         if(str == ''){
           alert("please put postback url");
         } else {
@@ -28,25 +31,39 @@
           var query_strings = domain[1];
           // alert(query_strings)
           var split_query_string = query_strings.split('&');
-          for(i = 0; i < split_query_string.length;i++){
-            $("#result_url").append(split_query_string[i] + "\n");
-            // compare each query string with postback macro in server using ajax
-            $.ajax({
-                url: "compare.php",
-                type: "get",
-                data: {
-                    a: split_query_string[i],
+          var len = split_query_string.length;
+          for(i = 0; len; i++){
+            var macro = split_query_string[i].split('=');
+            <?php
+                $a = $_GET['a'];
+                
+                $servername = "localhost";
+                $username = "pbtester";
+                $password = "qkrrhkdrb1!";
+                $dbname = "pbtester";
+                $conn = new mysqli($servername, $username, $password, $dbname);
+                // Check connection
+                if ($conn->connect_error) {
+                  die("Connection failed: " . $conn->connect_error);
                 }
-            }).done(function(data) {
-                alert(data + "comeback");
-              if(data == 1){
-                $("#result_url").append(split_query_string[i] + "  -------vaild\n");
-              } else{
-                $("#result_url").append(split_query_string[i] + "  -------invaild\n");
-              }
-            });
 
+                $sql = "SELECT count(attribution) FROM attribution_macro WHERE attribution = '$a'";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                  // output data of each row
+                  while($row = $result->fetch_assoc()) {
+                      echo $row["count(attribution)"];
+                  }
+                } else {
+                  echo "error happened";
+                }
+
+                $conn->close();
+   ?>
           }
+          
+          
+          
         }
       });
     });

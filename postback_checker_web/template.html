@@ -20,32 +20,56 @@
       $("#check_btn").click(function() {
         $("#result_url").text('');
         str = $("#typed_url").val();
+        
+        // get selected macro type from selectpicker 
+        var macro_type = $("#postback_type option:selected").val();
+        //alert(macro_type);
+        
+        // when url is empty
         if(str == ''){
           alert("please put postback url");
         } else {
+          // split domain and query strings using '?'
           var domain = str.split('?');
           // alert(domain[0]);
+          
+          // domain
           $("#domain").text(domain[0]);
+
+          // query strings 
           var query_strings = domain[1];
           // alert(query_strings)
+
+          // split query strings using '&' and put it in array
           var split_query_string = query_strings.split('&');
+          console.log(split_query_string);
+          console.log(split_query_string.length);
           for(i = 0; i < split_query_string.length;i++){
+
             var temp_query = split_query_string[i];
-            $("#result_url").append(temp_query + "\n");
+            // $("#result_url").append(temp_query + "\n");
             // compare each query string with postback macro in server using ajax
             var macro = split_query_string[i].split('=');
+            console.log("macro[0] : " + macro[0] + " macro[1] : " + macro[1] + " url type: " + macro_type);
+
             $.ajax({
                 url: "compare.php",
                 type: "get",
                 data: {
-                    a: macro[1],
+                    a: macro[0],
+                    b: macro[1],
+                    c: macro_type,
                 }
             }).done(function(data) {
-              alert("comeback data : " + data);
-              if(data == 1){
-                $("#result_url").append('<font color = "Green">' + temp_query + '</font>\n');
-              } else{
-                $("#result_url").append('<font color = "Red">' +temp_query + '</font>\n');
+              // alert("comeback data : " + data);
+              console.log(data);
+              query_result = data.split('|');
+
+              if(query_result[0] == 1){
+                $("#result_url").append(query_result[1]+ "=" +query_result[2] + " ----- valid macro\n");
+                console.log(macro[0]);
+              } else if(query_result[0] == 0){
+                $("#result_url").append(query_result[1]+ "=" +query_result[2]+ " ----- invalid macro \n");
               }
             });
 
@@ -69,8 +93,8 @@
       <div>
         <label for="postback_type">postback type</label>
         <select class = "selectpicker" id = "postback_type">
-            <option value="attribution">Attribution</option>
-            <option value="event">Event</option>
+            <option value="attribution">attribution</option>
+            <option value="event">event</option>
         </select>
       </div>
     </div>
@@ -121,6 +145,7 @@
 
     </div>
 </div>
+<br><br><br><br><br>
 <div class="jumbotron text-center" style="margin-bottom:0">
   <p>If you have question, sned email to jake.park@igaworks.com</p>
 </div>
