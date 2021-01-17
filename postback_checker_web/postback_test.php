@@ -44,6 +44,7 @@
           var split_query_string = query_strings.split('&');
           console.log(split_query_string);
           console.log(split_query_string.length);
+
           for(i = 0; i < split_query_string.length;i++){
 
             var temp_query = split_query_string[i];
@@ -51,38 +52,28 @@
             // compare each query string with postback macro in server using ajax
             var macro = split_query_string[i].split('=');
             console.log("macro[0] : " + macro[0] + " macro[1] : " + macro[1] + " url type: " + macro_type);
-            // how to solve this problem using php????????---------
-            <?php
-              $a = $_GET['a'];
-              $b = $_GET['b'];
-              $c = $_GET['c'];
-
-              $servername = "localhost";
-              $username = "pbtester";
-              $password = "qkrrhkdrb1!";
-              $dbname = "pbtester";
-              $conn = new mysqli($servername, $username, $password, $dbname);
-              // Check connection
-              if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-              }
-              if($c == 'attribution'){
-                $sql = "SELECT count(*) FROM attribution_macro WHERE attribution = '$b'";
-              } elseif($c == 'event'){
-                $sql = "SELECT count(*) FROM event_macro WHERE event = '$b'";
-              }
-              $result = $conn->query($sql);
-              if ($result->num_rows > 0) {
-                // output data of each row
-                while($row = $result->fetch_assoc()) {
-                    echo $row["count(*)"]."|$a=$b";
+            // let's try send data in JSON
+            // JSON으로 데이터 전달해서 JSON으로 데이터 전달 받아 활용하기 
+            $.ajax({
+                url: "postback_test.php",
+                type: "get",
+                data: {
+                    a: macro[0],
+                    b: macro[1],
+                    c: macro_type,
                 }
-              } else {
-                echo "error happened";
+            }).done(function(data) {
+              // alert("comeback data : " + data);
+              console.log(data);
+              query_result = data.split('|');
+              
+              if(query_result[0] == 1){
+                $("#result_url").append(query_result[1] + " ----- valid macro\n");
+              } else if(query_result[0] == 0){
+                $("#result_url").append(query_result[1] + " ----- invalid macro \n");
               }
+            });
 
-              $conn->close();
-              ?>
           }
         }
       });

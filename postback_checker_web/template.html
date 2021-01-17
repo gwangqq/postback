@@ -68,7 +68,7 @@
                   query_result = data.split('|');
 
                   if(query_result[0] == 1){
-                    $("#result_url").append(query_result[1] + " ----- valid macro\n");
+                    $("#result_url").append(query_result[1] + " ----- valid macro</font>\n");
                   } else if(query_result[0] == 0){
                     $("#result_url").append(query_result[1] + " ----- invalid macro \n");
                   }
@@ -124,7 +124,7 @@
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
         <label for="comment">result:</label>
-      <textarea class="form-control" id = "result_url" rows="7" id="comment" name="result"></textarea>
+      <textarea class="form-control" id = "result_url" rows="7" name="result"></textarea>
     </div>
     <div class="col-sm-2"></div>
 
