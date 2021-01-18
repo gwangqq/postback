@@ -21,7 +21,7 @@
   if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo $row["count(*)"]."|$a=$b";
+        echo $row["count(*)"]."|$a|$b";
     }
   } else {
     echo "error happened";

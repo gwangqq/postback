@@ -17,72 +17,13 @@
   <script>
     $(document).ready(function(){
       $("#check_btn").click(function() {
-        $("#result_url").text('');
-        str = $("#typed_url").val();
-        
-        // get selected macro type from selectpicker 
-        var macro_type = $("#postback_type option:selected").val();
-        //alert(macro_type);
-        
-        // when url is empty
-        if(str == ''){
-          alert("please put postback url");
-        } else {
-          // split domain and query strings using '?'
-          var domain = str.split('?');
-          // alert(domain[0]);
-          
-          // domain
-          $("#domain").text(domain[0]);
-
-          // query strings 
-          var query_strings = domain[1];
-          // alert(query_strings)
-
-          // split query strings using '&' and put it in array
-          var split_query_string = query_strings.split('&');
-          console.log(split_query_string);
-          console.log(split_query_string.length);
-
-          var tmp_result = "";
-          for(i = 0; i < split_query_string.length;i++){
-            var temp_query = split_query_string[i];
-            // $("#result_url").append(temp_query + "\n");
-            // compare each query string with postback macro in server using ajax
-            var macro = split_query_string[i].split('=');
-            console.log("macro[0] : " + macro[0] + " macro[1] : " + macro[1] + " url type: " + macro_type);
-            // let's try send data in JSON
-            // JSON으로 데이터 전달해서 JSON으로 데이터 전달 받아 활용하기 
-            $.ajax({
-                url: "compare.php",
-                type: "get",
-                async: false,
-                data: {
-                    a: macro[0],
-                    b: macro[1],
-                    c: macro_type,
-                }, 
-                success: function(data) {
-                  // alert("comeback data : " + data);
-                  console.log(data);
-                  query_result = data.split('|');
-                  
-                  if(query_result[0] == 1){
-                    console.log("query_result[1] : " + query_result[1]);
-                    tmp_result += '<div><input type = "text" value = "'+query_result[1]+'"></div>';
-                  } else if(query_result[0] == 0){
-                    tmp_result += '<div><input type = "text" value = "'+query_result[1]+'"></div>';
-                    console.log("query_result[1] : " + query_result[1]);
-                  } 
-                }
-            });
-          }
-
-        }
-          console.log(tmp_result);
-          alert(tmp_result);
-          $('#result_query').append(tmp_result);
-      });
+          var str = "a={test str}";
+            // alert("clciked");
+            // $("#result_query").html('<label><font color = \"Red\">hello world!!</font></label>\n');
+            $("#result_query").append('<div><input type = "text" value = "'+str+'" /></div>');
+            $("#result_query").append('<div><input type = "text" value = "'+str+'" /></div>');
+            $("#result_query").append('<div><input type = "text" value = "'+str+'" /></div>');
+        });
     });
   </script>
 </head>
@@ -122,18 +63,15 @@
     <!-- show domain -->
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-        <label for="comment" id = "domain">domain</label>
+        <label id = "domain">domain</label>
     </div>
     <div class="col-sm-2"></div>
 
     <!-- result textarea -->
     <div class="col-sm-2"></div>
     <div class="col-sm-8" id = "result_url">
-        <div>
-          <label for="result_query">result:</label>
-        </div>
-        <div id = "result_query">
-        </div>
+        <label for="comment">result:</label>
+        <div id = "result_query"></div> 
     </div>
     <div class="col-sm-2"></div>
 

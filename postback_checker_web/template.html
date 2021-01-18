@@ -20,7 +20,7 @@
       $("#check_btn").click(function() {
         $("#result_url").text('');
         str = $("#typed_url").val();
-        
+        var tmp_query_result = "";
         // get selected macro type from selectpicker 
         var macro_type = $("#postback_type option:selected").val();
         //alert(macro_type);
@@ -68,14 +68,17 @@
                   query_result = data.split('|');
 
                   if(query_result[0] == 1){
-                    $("#result_url").append(query_result[1] + " ----- valid macro</font>\n");
+                    tmp_query_result += '<div><label>parameter name:</label>   <input type = "text" value = "'+query_result[1]+'">';
+                    tmp_query_result += '<label>postback macro:</label>   <input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;"></div>';
                   } else if(query_result[0] == 0){
-                    $("#result_url").append(query_result[1] + " ----- invalid macro \n");
+                    tmp_query_result += '<div><label>parameter name:</label>   <input type = "text" value = "'+query_result[1]+'">';
+                    tmp_query_result += '<label>postback macro:</label>   <input type = "text" value = "'+query_result[2]+'" style="color:Red; font-weight:bold;"></div>';
                   }
                 }
             });
           }
         }
+        $("#result_url").append(tmp_query_result);
       });
     });
   </script>
@@ -116,15 +119,15 @@
     <!-- show domain -->
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-        <label for="comment" id = "domain">domain</label>
+        <label id = "domain">domain</label>
     </div>
     <div class="col-sm-2"></div>
 
     <!-- result textarea -->
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-        <label for="comment">result:</label>
-      <textarea class="form-control" id = "result_url" rows="7" name="result"></textarea>
+        <label>result:</label>
+        <div id = "result_url"></div>
     </div>
     <div class="col-sm-2"></div>
 
