@@ -17,9 +17,6 @@
   </style>
   <script>
     $(document).ready(function(){
-    $(".btn_delete btn-danger").click(function(){
-      alert("clicked!!!!");
-    });
       var i = 0;
       $("#check_btn").click(function() {
         $("#result_url").text('');
@@ -86,17 +83,19 @@
         $("#result_url").append(tmp_query_result);
 
 
+        $(".btn_delete btn-danger").click(function(){
+          alert("clicked!!!!");
+        });
+
         // when user hit add button
         $("#add").click(function(){
           //alert("clicked!!!!");
           $('#add').remove();
-          $("#result_url").append('<div><label>parameter name:</label>   <input type = "text"><label>postback macro:</label>   <input type = "text"><button type="button" id = "btn_delete'+i+'" class="btn_delete btn-danger">-</button></div>');
+          $("#result_url").append('<div><label>parameter name:</label>   <input type = "text">\t<label>postback macro:</label>   <input type = "text" style="font-weight:bold;"><button type="button" id = "btn_delete'+i+'" class="btn_delete btn-danger">-</button></div>');
           $("#result_url").append('<button type="button" id = "add" class="btn_add btn-primary">+</button>');
         });
       });
     });
-
-
   </script>
 </head>
 <body>
@@ -143,8 +142,24 @@
     <!-- result textarea -->
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-        <label>result:</label>
-        <div id = "result_url"></div>
+        <table class="table table-hover" id = "result_table">
+          <thead>
+            <tr>
+              <th>Parameter Name</th>
+              <th>Parameter Value(Macro)</th>
+            </tr>
+          </thead>
+          <tbody id = "result_url">
+            <tr>
+              <td><input type = "text"></td>
+              <td><input type = "text"></td>
+            </tr>
+            <tr>
+              <td><input type = "text"></td>
+              <td><input type = "text"></td>
+            </tr>
+          </tbody>
+        </table>
     </div>
     <div class="col-sm-2"></div>
 
