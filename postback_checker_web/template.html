@@ -69,31 +69,35 @@
                   query_result = data.split('|');
 
                   if(query_result[0] == 1){
-                    tmp_query_result += '<div><label>parameter name:</label>   <input type = "text" value = "'+query_result[1]+'">';
-                    tmp_query_result += '\t<label>postback macro:</label>   <input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;"><button type="button" id = "btn_delete'+i+'" class="btn_delete btn-danger">-</button></div>';
+                    tmp_query_result += '<tr>';
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[1]+'"></td>';
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;></td>';
+                    tmp_query_result += '</tr>';
                   } else if(query_result[0] == 0){
-                    tmp_query_result += '<div><label>parameter name:</label>   <input type = "text" value = "'+query_result[1]+'">';
-                    tmp_query_result += '\t<label>postback macro:</label>   <input type = "text" value = "'+query_result[2]+'" style="color:Red; font-weight:bold;"><button type="button" id = "btn_delete'+i+'" class="btn_delete btn-danger">-</button></div>';
+                    tmp_query_result += '<tr>';
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[1]+'"></td>';
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;></td>';
+                    tmp_query_result += '</tr>';
                   }
                 }
             });
           }
         }
-        tmp_query_result += '<button type="button" id = "add" class="btn_add btn-primary">+</button>';
-        $("#result_url").append(tmp_query_result);
+        //tmp_query_result += '<button type="button" id = "add" class="btn_add btn-primary">+</button>';
+        $("#result_url").html(tmp_query_result);
 
 
-        $(".btn_delete btn-danger").click(function(){
-          alert("clicked!!!!");
-        });
+        //$(".btn_delete btn-danger").click(function(){
+        //  alert("clicked!!!!");
+        //});
 
         // when user hit add button
-        $("#add").click(function(){
+          /*$("#add").click(function(){
           //alert("clicked!!!!");
           $('#add').remove();
           $("#result_url").append('<div><label>parameter name:</label>   <input type = "text">\t<label>postback macro:</label>   <input type = "text" style="font-weight:bold;"><button type="button" id = "btn_delete'+i+'" class="btn_delete btn-danger">-</button></div>');
           $("#result_url").append('<button type="button" id = "add" class="btn_add btn-primary">+</button>');
-        });
+        }); {% endcomment %}*/
       });
     });
   </script>
@@ -149,15 +153,8 @@
               <th>Parameter Value(Macro)</th>
             </tr>
           </thead>
+          <!--using table to show result of chekcing url-->
           <tbody id = "result_url">
-            <tr>
-              <td><input type = "text"></td>
-              <td><input type = "text"></td>
-            </tr>
-            <tr>
-              <td><input type = "text"></td>
-              <td><input type = "text"></td>
-            </tr>
           </tbody>
         </table>
     </div>
