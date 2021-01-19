@@ -8,6 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery.min.js"></script>
  <style>
   .fakeimg {
     height: 200px;
@@ -16,10 +17,11 @@
   </style>
   <script>
     $(document).ready(function(){
+
       $("#check_btn").click(function() {
         $("#result_url").text('');
         str = $("#typed_url").val();
-        
+        var tmp_query_result = "";
         // get selected macro type from selectpicker 
         var macro_type = $("#postback_type option:selected").val();
         //alert(macro_type);
@@ -43,13 +45,12 @@
           var split_query_string = query_strings.split('&');
           console.log(split_query_string);
           console.log(split_query_string.length);
+          for(i = 0 ; i < split_query_string.length;i++){
 
-          var tmp_result = "";
-          for(i = 0; i < split_query_string.length;i++){
             var temp_query = split_query_string[i];
             // $("#result_url").append(temp_query + "\n");
             // compare each query string with postback macro in server using ajax
-            var macro = split_query_string[i].split('=');
+            var macro = temp_query.split('=');
             console.log("macro[0] : " + macro[0] + " macro[1] : " + macro[1] + " url type: " + macro_type);
             // let's try send data in JSON
             // JSON으로 데이터 전달해서 JSON으로 데이터 전달 받아 활용하기 
@@ -66,22 +67,50 @@
                   // alert("comeback data : " + data);
                   console.log(data);
                   query_result = data.split('|');
-                  
+
                   if(query_result[0] == 1){
-                    console.log("query_result[1] : " + query_result[1]);
-                    tmp_result += '<div><input type = "text" value = "'+query_result[1]+'"></div>';
+
+                    tmp_query_result += '<tr>';
+                    console.log('<tr>');
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[1]+'"></td>';
+                    console.log('<td><input type = "text" value = "'+query_result[1]+'"></td>');
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;></td>';
+                    console.log('<td><input type = "text" value = "'+query_result[2]+'"></td>');
+                    tmp_query_result += '</tr>';
+                    console.log('</tr>');
+
                   } else if(query_result[0] == 0){
-                    tmp_result += '<div><input type = "text" value = "'+query_result[1]+'"></div>';
-                    console.log("query_result[1] : " + query_result[1]);
-                  } 
+
+                    tmp_query_result += '<tr>';
+                    console.log('<tr>');
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[1]+'"></td>';
+                    console.log('<td><input type = "text" value = "'+query_result[1]+'"></td>');
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;></td>';
+                    console.log('<td><input type = "text" value = "'+query_result[2]+'"></td>');
+                    tmp_query_result += '</tr>';
+                    console.log('</tr>');
+
+                  }
                 }
             });
           }
-
         }
-          console.log(tmp_result);
-          alert(tmp_result);
-          $('#result_query').append(tmp_result);
+
+        //tmp_query_result += '<button type="button" id = "add" class="btn_add btn-primary">+</button>';
+        $("#result_url").append(tmp_query_result);
+
+
+        //$(".btn_delete btn-danger").click(function(){
+        //  alert("clicked!!!!");
+        //});
+
+        // when user hit add button
+          /*$("#add").click(function(){
+          //alert("clicked!!!!");
+          $('#add').remove();
+          $("#result_url").append('<div><label>parameter name:</label>   <input type = "text">\t<label>postback macro:</label>   <input type = "text" style="font-weight:bold;"><button type="button" id = "btn_delete'+i+'" class="btn_delete btn-danger">-</button></div>');
+          $("#result_url").append('<button type="button" id = "add" class="btn_add btn-primary">+</button>');
+        }); {% endcomment %}*/
       });
     });
   </script>
@@ -122,26 +151,34 @@
     <!-- show domain -->
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-        <label for="comment" id = "domain">domain</label>
+        <label id = "domain_name">domain: </label>
+        <label id = "domain">your domain</label>
     </div>
     <div class="col-sm-2"></div>
 
     <!-- result textarea -->
     <div class="col-sm-2"></div>
-    <div class="col-sm-8" id = "result_url">
-        <div>
-          <label for="result_query">result:</label>
-        </div>
-        <div id = "result_query">
-        </div>
+    <div class="col-sm-8">
+        <table class="table table-hover" id = "result_table">
+          <thead>
+            <tr>
+              <th>Parameter Name</th>
+              <th>Parameter Value(Macro)</th>
+            </tr>
+          </thead>
+          <!--using table to show result of chekcing url-->
+          <tbody id = "result_url">
+          </tbody>
+        </table>
     </div>
     <div class="col-sm-2"></div>
 
     <!-- two buttons
         1: url change, 2: show macro-->
+        <br><br>
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-            <button type="button" class="btn btn-primary">Edit</button>
+            <button type="button" class="btn btn-info">Edit</button>
             <button type="button" class="btn btn-secondary">macro list</button>
         </div>
         <div class="col-sm-2"></div>
@@ -149,7 +186,7 @@
     <!-- result textarea of changed url -->
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-          <textarea class="form-control" rows="7" id="comment" name="text" readonly></textarea>
+          <textarea class="form-control" rows="7" id="comment" name="text"></textarea>
         </div>
         <div class="col-sm-2"></div>
 
