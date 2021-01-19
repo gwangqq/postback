@@ -20,6 +20,7 @@
 
       $("#check_btn").click(function() {
         $("#result_url").text('');
+        $("#complete_url").text('');
         str = $("#typed_url").val();
         var tmp_query_result = "";
         // get selected macro type from selectpicker 
@@ -72,14 +73,14 @@
 
                     tmp_query_result += '<tr>';
                     tmp_query_result +=   '<td><input type = "text" value = "'+ query_result[1] + '"></td>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;"><button type="button" id = "delete" class="btn_delete btn-danger">-</button></td>';
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td>';
                     tmp_query_result += '</tr>';
 
                   } else if(query_result[0] == 0){
 
                     tmp_query_result += '<tr>';
                     tmp_query_result +=   '<td><input type = "text" value = "'+query_result[1]+ '"></td>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Red; font-weight:bold;"><button type="button" id = "delete" class="btn_delete btn-danger">-</button></td>';
+                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Red; font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td>';
                     tmp_query_result += '</tr>';
 
                   }
@@ -87,24 +88,53 @@
             });
           }
         }
-
-        //tmp_query_result += '<button type="button" id = "add" class="btn_add btn-primary">+</button>';
-        $("#result_url").append(tmp_query_result + '<button type="button" id = "add" class="btn_add btn-primary">+</button>');
-
-
-        //$(".btn_delete btn-danger").click(function(){
-        //  alert("clicked!!!!");
-        //});
-
-        // when user hit add button
-          /*$("#add").click(function(){
-          //alert("clicked!!!!");
-          $('#add').remove();
-          $("#result_url").append('<div><label>parameter name:</label>   <input type = "text">\t<label>postback macro:</label>   <input type = "text" style="font-weight:bold;"><button type="button" id = "btn_delete'+i+'" class="btn_delete btn-danger">-</button></div>');
-          $("#result_url").append('<button type="button" id = "add" class="btn_add btn-primary">+</button>');
-        }); {% endcomment %}*/
+        $("#result_url").append(tmp_query_result);
       });
+
+      // when user hit add button
+      $("#add").click(function(){
+        //alert("clicked!!!!");
+        $("#result_url").append('<tr><td><input type = "text"></td><td><input type = "text" style="font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td></tr>');
+        // when user click delete button 
+        // 1. get index of clicked table row
+        // 2. use remove() te get rid of certain tr 
+      }); 
+
+      $("#delete").click(function(){
+          //alert("delete clicked!!!!");
+          $("#result_table input[type='checkbox']:checked").parent().parent().remove();
+      });
+
+    $('#btn_edit').click(function(){
+        var url = $("#domain").text();
+        var len = $('#result_table tr').length;
+        for(i = 1;i<len;i++){
+          if(i == 1){
+            url += "?";
+          }
+            for(j = 0; j<2;j++){
+                str = $("tr:eq("+i+")>td:eq("+j+")").children().val();
+                
+                    if(j == 0){
+                      url += str + "=";
+                    } else if(j == 1){
+                      if(i == len-1){
+                          url += str;
+                      }else{
+                          url += str + "&";
+                      }
+                  }
+                
+                 console.log(url);
+            }
+        }
+                 console.log(url);
+      $("#complete_url").text(url);
+
     });
+});
+
+    
   </script>
 </head>
 <body>
@@ -147,7 +177,7 @@
         <label id = "domain">your domain</label>
     </div>
     <div class="col-sm-2"></div>
-
+    <br><br><br>
     <!-- result textarea -->
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
@@ -156,6 +186,7 @@
             <tr>
               <th>Parameter Name</th>
               <th>Parameter Value(Macro)</th>
+              <th>delete</th>
             </tr>
           </thead>
           <!--using table to show result of chekcing url-->
@@ -164,13 +195,18 @@
         </table>
     </div>
     <div class="col-sm-2"></div>
-
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <button type="button" id = "add" class="btn_add btn-primary">add parameter</button>
+        <button type="button" id = "delete" class="btn_delete btn-danger">delete parameter</button>
+    </div>
+    <div class="col-sm-2"></div>
     <!-- two buttons
         1: url change, 2: show macro-->
         <br><br>
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-            <button type="button" class="btn btn-info">Edit</button>
+            <button type="button" id = "btn_edit" class="btn btn-info">Edit</button>
             <button type="button" class="btn btn-secondary">macro list</button>
         </div>
         <div class="col-sm-2"></div>
@@ -178,7 +214,7 @@
     <!-- result textarea of changed url -->
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-          <textarea class="form-control" rows="7" id="comment" name="text"></textarea>
+          <textarea class="form-control" rows="7" id="complete_url" name="text"></textarea>
         </div>
         <div class="col-sm-2"></div>
 
