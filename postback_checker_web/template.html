@@ -15,202 +15,118 @@
     background: #aaa;
   }
   </style>
-  <script>
-    $(document).ready(function(){
-      $("#typed_url").keydown(function(key) {
-        if (key.keyCode == 13) {
-          $("#result_url").text('');
-          $("#complete_url").text('');
-          str = $("#typed_url").val();
-        var tmp_query_result = "";
-        // get selected macro type from selectpicker 
-        var macro_type = $("#postback_type option:selected").val();
-        //alert(macro_type);
-        
-        // when url is empty
-        if(str == ''){
-          alert("please put postback url");
-        } else {
-          // split domain and query strings using '?'
-          var domain = str.split('?');
-          // alert(domain[0]);
-          
-          // domain
-          $("#domain").text(domain[0]);
+<script>
+function postbackCheck() {
+  $("#result_url").text('');
+      $("#complete_url").text('');
+      str = $("#typed_url").val();
+      var tmp_query_result = "";
+      // get selected macro type from selectpicker 
+      var macro_type = $("#postback_type option:selected").val();
+    
+    // when url is empty
+    if(str == ''){
+      alert("please put postback url");
+    } else {
+      // split domain and query strings using '?'
+      var domain = str.split('?');
+      
+      // domain
+      $("#domain").text(domain[0]);
 
-          // query strings 
-          var query_strings = domain[1];
-          // alert(query_strings)
+      // query strings 
+      var query_strings = domain[1];
 
-          // split query strings using '&' and put it in array
-          var split_query_string = query_strings.split('&');
-          console.log(split_query_string);
-          console.log(split_query_string.length);
-          for(i = 0 ; i < split_query_string.length;i++){
+      // split query strings using '&' and put it in array
+      var split_query_string = query_strings.split('&');
+      console.log(split_query_string);
+      console.log(split_query_string.length);
+      for(i = 0 ; i < split_query_string.length;i++){
 
-            var temp_query = split_query_string[i];
-            // $("#result_url").append(temp_query + "\n");
-            // compare each query string with postback macro in server using ajax
-            var macro = temp_query.split('=');
-            console.log("macro[0] : " + macro[0] + " macro[1] : " + macro[1] + " url type: " + macro_type);
-            // let's try send data in JSON
-            // JSON으로 데이터 전달해서 JSON으로 데이터 전달 받아 활용하기 
-            $.ajax({
-                url: "compare.php",
-                type: "get",
-                async: false,
-                data: {
-                    a: macro[0],
-                    b: macro[1],
-                    c: macro_type,
-                }, 
-                success: function(data) {
-                  // alert("comeback data : " + data);
-                  console.log(data);
-                  query_result = data.split('|');
-
-                  if(query_result[0] == 1){
-
-                    tmp_query_result += '<tr>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+ query_result[1] + '"></td>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td>';
-                    tmp_query_result += '</tr>';
-
-                  } else if(query_result[0] == 0){
-
-                    tmp_query_result += '<tr>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[1]+ '"></td>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Red; font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td>';
-                    tmp_query_result += '</tr>';
-
-                  }
-                }
-            });
+      var temp_query = split_query_string[i];
+      // compare each query string with postback macro in server using ajax
+      var macro = temp_query.split('=');
+      console.log("macro[0] : " + macro[0] + " macro[1] : " + macro[1] + " url type: " + macro_type);
+      $.ajax({
+          url: "compare.php",
+          type: "get",
+          async: false,
+          data: {
+              a: macro[0],
+              b: macro[1],
+              c: macro_type,
+          }, 
+          success: function(data) {
+            // alert("comeback data : " + data);
+            console.log(data);
+            query_result = data.split('|');
+            if(query_result[0] == 1){
+              tmp_query_result += '<tr>';
+              tmp_query_result +=   '<td><input type = "text" value = "'+ query_result[1] + '"></td>';
+              tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td>';
+              tmp_query_result += '</tr>';
+            } else if(query_result[0] == 0){
+              tmp_query_result += '<tr>';
+              tmp_query_result +=   '<td><input type = "text" value = "'+query_result[1]+ '"></td>';
+              tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Red; font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td>';
+              tmp_query_result += '</tr>';
+            }
           }
-        }
-        $("#result_url").append(tmp_query_result);
+      });
+    }
+  }
+  $("#result_url").append(tmp_query_result);
+}
+$('#btn_edit').tooltip({title: "변경한 매크로로 url을 만듭니다", placement: "top"});
+$('#delete').tooltip({title: "체크한 파라미터를 삭제합니다", placement: "top"});
+$('#add').tooltip({title: "파라미터와 매크로를 추가합니다", placement: "top"});
+
+  $(document).ready(function(){
+    $("#typed_url").keydown(function(key) {
+      if (key.keyCode == 13) {
+        function postbackCheck();
     }
   });
 
+  $("#check_btn").click(function() {
+      function postbackCheck();
+  });
 
+  // when user hit add button
+  $("#add").click(function(){
+    //alert("clicked!!!!");
+    $("#result_url").append('<tr><td><input type = "text"></td><td><input type = "text" style="font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td></tr>');
+  }); 
 
+  $("#delete").click(function(){
+      //alert("delete clicked!!!!");
+      $("#result_table input[type='checkbox']:checked").parent().parent().remove();
+  });
 
-
-
-      $("#check_btn").click(function() {
-        $("#result_url").text('');
-        $("#complete_url").text('');
-        str = $("#typed_url").val();
-        var tmp_query_result = "";
-        // get selected macro type from selectpicker 
-        var macro_type = $("#postback_type option:selected").val();
-        //alert(macro_type);
-        
-        // when url is empty
-        if(str == ''){
-          alert("please put postback url");
-        } else {
-          // split domain and query strings using '?'
-          var domain = str.split('?');
-          // alert(domain[0]);
-          
-          // domain
-          $("#domain").text(domain[0]);
-
-          // query strings 
-          var query_strings = domain[1];
-          // alert(query_strings)
-
-          // split query strings using '&' and put it in array
-          var split_query_string = query_strings.split('&');
-          console.log(split_query_string);
-          console.log(split_query_string.length);
-          for(i = 0 ; i < split_query_string.length;i++){
-
-            var temp_query = split_query_string[i];
-            // $("#result_url").append(temp_query + "\n");
-            // compare each query string with postback macro in server using ajax
-            var macro = temp_query.split('=');
-            console.log("macro[0] : " + macro[0] + " macro[1] : " + macro[1] + " url type: " + macro_type);
-            // let's try send data in JSON
-            // JSON으로 데이터 전달해서 JSON으로 데이터 전달 받아 활용하기 
-            $.ajax({
-                url: "compare.php",
-                type: "get",
-                async: false,
-                data: {
-                    a: macro[0],
-                    b: macro[1],
-                    c: macro_type,
-                }, 
-                success: function(data) {
-                  // alert("comeback data : " + data);
-                  console.log(data);
-                  query_result = data.split('|');
-
-                  if(query_result[0] == 1){
-
-                    tmp_query_result += '<tr>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+ query_result[1] + '"></td>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Green; font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td>';
-                    tmp_query_result += '</tr>';
-
-                  } else if(query_result[0] == 0){
-
-                    tmp_query_result += '<tr>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[1]+ '"></td>';
-                    tmp_query_result +=   '<td><input type = "text" value = "'+query_result[2]+'" style="color:Red; font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td>';
-                    tmp_query_result += '</tr>';
-
-                  }
+  $('#btn_edit').click(function(){
+      var url = $("#domain").text();
+      var len = $('#result_table tr').length;
+      for(i = 1;i<len;i++){
+        if(i == 1){
+          url += "?";
+        }
+          for(j = 0; j<2;j++){
+              str = $("tr:eq("+i+")>td:eq("+j+")").children().val();
+                  if(j == 0){
+                    url += str + "=";
+                  } else if(j == 1){
+                    if(i == len-1){
+                        url += str;
+                    }else{
+                        url += str + "&";
+                    }
                 }
-            });
+                console.log(url);
           }
-        }
-        $("#result_url").append(tmp_query_result);
-      });
-
-      // when user hit add button
-      $("#add").click(function(){
-        //alert("clicked!!!!");
-        $("#result_url").append('<tr><td><input type = "text"></td><td><input type = "text" style="font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td></tr>');
-        // when user click delete button 
-        // 1. get index of clicked table row
-        // 2. use remove() te get rid of certain tr 
-      }); 
-
-      $("#delete").click(function(){
-          //alert("delete clicked!!!!");
-          $("#result_table input[type='checkbox']:checked").parent().parent().remove();
-      });
-
-    $('#btn_edit').click(function(){
-        var url = $("#domain").text();
-        var len = $('#result_table tr').length;
-        for(i = 1;i<len;i++){
-          if(i == 1){
-            url += "?";
-          }
-            for(j = 0; j<2;j++){
-                str = $("tr:eq("+i+")>td:eq("+j+")").children().val();
-                
-                    if(j == 0){
-                      url += str + "=";
-                    } else if(j == 1){
-                      if(i == len-1){
-                          url += str;
-                      }else{
-                          url += str + "&";
-                      }
-                  }
-                
-                 console.log(url);
-            }
-        }
-                 console.log(url);
-      $("#complete_url").text(url);
-
-    });
+      }
+                console.log(url);
+    $("#complete_url").text(url);
+  });
 });
 
     
@@ -247,7 +163,9 @@
             </div>
           </div>
     </div>
-    <div class="col-sm-2"></div>
+    <div class="col-sm-2">
+     
+    </div>
 
     <!-- show domain -->
     <div class="col-sm-2"></div>
