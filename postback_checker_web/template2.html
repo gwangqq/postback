@@ -86,17 +86,18 @@
       });
       // when push return 
       $("#typed_url").keydown(function(key) {
-      if (key.keyCode == 13) {
-        postbackCheck();
-      }
+        if (key.keyCode == 13) {
+          postbackCheck();
+        }
       });
+      
+      //$('#btn_edit').tooltip({title: "new url with changed parameter", placement: "top"}); 
+
       // when user hit add button
       $("#add").click(function(){
         //alert("clicked!!!!");
         $("#result_url").append('<tr><td><input type = "text"></td><td><input type = "text" style="font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td></tr>');
-        // when user click delete button 
-        // 1. get index of clicked table row
-        // 2. use remove() te get rid of certain tr 
+      
       }); 
 
       $("#delete").click(function(){
