@@ -15,8 +15,8 @@
     background: #aaa;
   }
   </style>
-<script>
-function postbackCheck() {
+  <script>
+    function postbackCheck() {
   $("#result_url").text('');
       $("#complete_url").text('');
       str = $("#typed_url").val();
@@ -77,56 +77,60 @@ function postbackCheck() {
   }
   $("#result_url").append(tmp_query_result);
 }
-$('#btn_edit').tooltip({title: "변경한 매크로로 url을 만듭니다", placement: "top"});
-$('#delete').tooltip({title: "체크한 파라미터를 삭제합니다", placement: "top"});
-$('#add').tooltip({title: "파라미터와 매크로를 추가합니다", placement: "top"});
 
-  $(document).ready(function(){
-    $("#typed_url").keydown(function(key) {
+    
+    $(document).ready(function(){
+      // when click check button
+      $("#check_btn").click(function() {
+        postbackCheck();
+      });
+      // when push return 
+      $("#typed_url").keydown(function(key) {
       if (key.keyCode == 13) {
-        function postbackCheck();
-    }
-  });
-
-  $("#check_btn").click(function() {
-      function postbackCheck();
-  });
-
-  // when user hit add button
-  $("#add").click(function(){
-    //alert("clicked!!!!");
-    $("#result_url").append('<tr><td><input type = "text"></td><td><input type = "text" style="font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td></tr>');
-  }); 
-
-  $("#delete").click(function(){
-      //alert("delete clicked!!!!");
-      $("#result_table input[type='checkbox']:checked").parent().parent().remove();
-  });
-
-  $('#btn_edit').click(function(){
-      var url = $("#domain").text();
-      var len = $('#result_table tr').length;
-      for(i = 1;i<len;i++){
-        if(i == 1){
-          url += "?";
-        }
-          for(j = 0; j<2;j++){
-              str = $("tr:eq("+i+")>td:eq("+j+")").children().val();
-                  if(j == 0){
-                    url += str + "=";
-                  } else if(j == 1){
-                    if(i == len-1){
-                        url += str;
-                    }else{
-                        url += str + "&";
-                    }
-                }
-                console.log(url);
-          }
+        postbackCheck();
       }
-                console.log(url);
-    $("#complete_url").text(url);
-  });
+      });
+      // when user hit add button
+      $("#add").click(function(){
+        //alert("clicked!!!!");
+        $("#result_url").append('<tr><td><input type = "text"></td><td><input type = "text" style="font-weight:bold;"></td><td><input type="checkbox" class="form-check-input" value=""></td></tr>');
+        // when user click delete button 
+        // 1. get index of clicked table row
+        // 2. use remove() te get rid of certain tr 
+      }); 
+
+      $("#delete").click(function(){
+          //alert("delete clicked!!!!");
+          $("#result_table input[type='checkbox']:checked").parent().parent().remove();
+      });
+
+    $('#btn_edit').click(function(){
+        var url = $("#domain").text();
+        var len = $('#result_table tr').length;
+        for(i = 1;i<len;i++){
+          if(i == 1){
+            url += "?";
+          }
+            for(j = 0; j<2;j++){
+                str = $("tr:eq("+i+")>td:eq("+j+")").children().val();
+                
+                    if(j == 0){
+                      url += str + "=";
+                    } else if(j == 1){
+                      if(i == len-1){
+                          url += str;
+                      }else{
+                          url += str + "&";
+                      }
+                  }
+                
+                 console.log(url);
+            }
+        }
+                 console.log(url);
+      $("#complete_url").text(url);
+
+    });
 });
 
     
@@ -163,9 +167,7 @@ $('#add').tooltip({title: "파라미터와 매크로를 추가합니다", placem
             </div>
           </div>
     </div>
-    <div class="col-sm-2">
-     
-    </div>
+    <div class="col-sm-2"></div>
 
     <!-- show domain -->
     <div class="col-sm-2"></div>
@@ -204,9 +206,7 @@ $('#add').tooltip({title: "파라미터와 매크로를 추가합니다", placem
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
             <button type="button" id = "btn_edit" class="btn btn-info">Edit</button>
-            <a href = "https://help.adbrix.io/hc/ko/articles/360008469373-%ED%8F%AC%EC%8A%A4%ED%8A%B8%EB%B0%B1-%EB%A7%A4%ED%81%AC%EB%A1%9C-%EC%95%88%EB%82%B4" target = "_blank">
-            <button type="button" class="btn btn-secondary">go to macro guide</button>
-            </a>
+            <button type="button" class="btn btn-secondary">macro list</button>
         </div>
         <div class="col-sm-2"></div>
     
