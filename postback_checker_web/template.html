@@ -107,28 +107,29 @@
     $('#btn_edit').click(function(){
         var url = $("#domain").text();
         var len = $('#result_table tr').length;
+        var parameter = "";
+        var macro = ""
         for(i = 1;i<len;i++){
           if(i == 1){
             url += "?";
+            parameter = $("tr:eq("+i+")>td:eq(0)").children().val();
+            macro = $("tr:eq("+i+")>td:eq(1)").children().val();
+            url += parameter + "=" + macro;
+          } else {
+            parameter = $("tr:eq("+i+")>td:eq(0)").children().val();
+            macro = $("tr:eq("+i+")>td:eq(1)").children().val();
+            url += "&" + parameter + "=" + macro;
           }
-            for(j = 0; j<2;j++){
-                str = $("tr:eq("+i+")>td:eq("+j+")").children().val();
-                
-                    if(j == 0){
-                      url += str + "=";
-                    } else if(j == 1){
-                      if(i == len-1){
-                          url += str;
-                      }else{
-                          url += str + "&";
-                      }
-                  }
-                
-                 console.log(url);
-            }
+          console.log(url);
         }
-                 console.log(url);
-      $("#complete_url").text(url);
+
+        
+        if(parameter == '' || macro == ''){
+          alert("delete empty blank");
+        } else{
+          $("#complete_url").text(url);
+        }
+      
 
     });
 });
