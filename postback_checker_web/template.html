@@ -109,6 +109,10 @@
         var len = $('#result_table tr').length;
         var parameter = "";
         var macro = ""
+        if(len == 1 ){
+          alert("There is no parameter. Please change your url.");
+          return false;
+        }
         for(i = 1;i<len;i++){
           if(i == 1){
             url += "?";
@@ -123,9 +127,9 @@
           console.log(url);
         }
 
-        
-        if(parameter == '' || macro == ''){
-          alert("delete empty blank");
+
+        if(parameter == '' || macro == ''){          
+            alert("delete empty blank");
         } else{
           $("#complete_url").text(url);
         }
