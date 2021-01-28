@@ -111,8 +111,9 @@
         var macro = ""
         if(len == 1 ){
           alert("There is no parameter. Please add parameter you need!!");
-          return false;
+          return;
         }
+
         for(i = 1;i<len;i++){
           if(i == 1){
             url += "?";
@@ -129,7 +130,7 @@
 
 
         if(parameter == '' || macro == ''){          
-            alert("delete empty blank, please!!!!");
+            alert("Delete empty blank please!!!!");
         } else{
           $("#complete_url").text(url);
         }
